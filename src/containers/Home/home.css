@@ -1,0 +1,114 @@
+#root {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.content {
+    display: flex;
+    width: 98%;
+    justify-content: center;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+}
+
+.homeHeader {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    background: #FEFFFF;
+    border: 2px solid #A3E0FB;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.07);
+    border-radius: 20px;
+}
+
+.home-logo {
+    width: 100px;
+}
+
+.iconHome {
+    width: 100%;
+    margin-left: 35px;
+}
+
+.infoHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 34%;
+    margin-right: 35px;
+}
+
+.textHeader {
+    width: 75%;
+    display: flex;
+    justify-content: end;
+}
+
+.boldBlueText {
+    color: #4696E6;
+}
+
+.homeBody {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    flex-direction: column;
+}
+
+.gridHome {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 70px;
+}
+
+#gridHomeBottom {
+    justify-content: flex-start;
+}
+
+.card {
+    width: 400px;
+    background: #FEFFFF;
+    border: 2px solid #E8E8E8;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.07);
+    border-radius: 9px;
+}
+
+.contentCard {
+    margin: 10px;
+}
+
+.titleCard {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.titleChart {
+    margin-left: 10px;
+}
+
+.tableCard {
+    display: flex;
+    justify-content: center;
+}
+
+table {
+    border-collapse: collapse;
+    text-align: center;
+    width: 90%;
+}
+
+.firstColumn {
+    border-bottom: 2px solid;
+    border-right: 2px solid;
+}
+
+.secondColumn {
+    border-bottom: 2px solid;
+}
