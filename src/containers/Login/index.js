@@ -1,22 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./login.css";
 import Logo from "../../assets/logo.png";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/auth";
+import { TextField, Button } from "@mui/material";
 
 const Login = () => {
   const navigate = useNavigate();
   const { signIn, signOut, user } = useAuth();
 
-  const [email, setEmail] = useState("");
+  const [document, setDocument] = useState("");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState("");
 
   const handleLoginClick = async () => {
     try {
-      await signIn({ email, password });
-
-      navigate("/home");
+      const response = await signIn({ document, password });
+      if (response.isValid) {
+        navigate("/home");
+      } else {
+        setStatus("Usuário ou senha incorretos.");
+      }
     } catch (error) {
       signOut();
       setStatus("Usuário ou senha incorretos.");
@@ -29,22 +33,24 @@ const Login = () => {
       <div className="login-content-input">
         <div>
           <p>Login</p>
-          <input
+          <TextField
             type="text"
-            onChange={(event) => setEmail(event.target.value)}
+            onChange={(event) => setDocument(event.target.value)}
+            variant="outlined"
           />
         </div>
         <div>
           <p>Senha</p>
-          <input
-            type="text"
+          <TextField
+            type="password"
             onChange={(event) => setPassword(event.target.value)}
+            variant="outlined"
           />
         </div>
         {status}
       </div>
       <div className="buttonLogin">
-        <button onClick={handleLoginClick}>Entrar</button>
+        <Button onClick={handleLoginClick} variant="contained">Entrar</Button>
       </div>
     </div>
   );

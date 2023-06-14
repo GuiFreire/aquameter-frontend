@@ -1,99 +1,54 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth } from "../../hooks/auth";
-import { useNavigate } from "react-router-dom";
-import Logo from "../../assets/logo.png";
-import ChartIcon from "../../assets/showChart.png";
-import TimeIcon from "../../assets/timeIcon.png";
-import "./home.css";
-import LineChart from "../../components/lineChart";
-import {UserData} from '../../api/Data'
+import { getSensorData, getSensorVolumeByMonth } from "../../api/sensor";
+import { months } from "../../utils/months";
+import WaterConsumption from "./Widgets/WaterConsumption";
+import UsageGoal from "./Widgets/UsageGoal";
+import RushHour from "./Widgets/RushHour";
 
 const Home = () => {
-    const [userData, setUserData] = useState({
-        labels: UserData.map((data => data.month)),
-        datasets: [
-            {
-                label: 'Consumo de Água (em litros)',
-                data: UserData.map((data) => data.userConsumption),
-                fill: false,
-                borderColor: 'rgb(75, 192, 192)',
-                tension: 0.1
-            }
-        ]
-    });
-    const navigate = useNavigate();
-    const { user, signOut } = useAuth();
-    const handleSignOut = async () => {
-        await signOut();
-        navigate("/");
-};
+  const { user } = useAuth();
+  const [sensors, setSensors] = useState([]);
+  const [monthVolumeBySensor, setMonthVolumeBySensor] = useState([]);
+
+  const loadSensor = async () => {
+    const response = await getSensorData(user.id);
+
+    if (response.length > 0) {
+      setSensors(response);
+      loadVolumeByMonth(response);
+    }
+  };
+
+  const loadVolumeByMonth = async (sensors) => {
+    const volumeByMonth = await Promise.all(
+      sensors.map(async (item) => {
+        const response = await getSensorVolumeByMonth(item.sensor_code);
+
+        const formattedVolume = response.map((v) => ({
+          id: item.sensor_code,
+          month: months[v.month - 1],
+          userConsumption: v.volume,
+          name: item.name,
+        }));
+
+        return { sensor_code: item.sensor_code, volume: formattedVolume };
+      })
+    );
+
+    setMonthVolumeBySensor(volumeByMonth);
+  };
+
+  useEffect(() => {
+    loadSensor();
+  }, []);
 
   return (
-    <div className="content">
-      <div className="homeHeader">
-        <div className="iconHome">
-            <img className="home-logo" src={Logo} alt="Aqua Meter Logo" />
-        </div>
-        <div className="infoHeader">
-            <div className="textHeader">
-                <p className="simpleText">Olá, <b className="boldBlueText">{user.name}</b></p>
-            </div>
-            <button onClick={handleSignOut}>sair!</button>
-        </div>
-      </div>
-      <div className="homeBody">
-        <div className="gridHome">
-            <div className="card" id="lineChart">
-                <div className="contentCard">
-                    <div className="titleCard">
-                        <img className="iconCard" src={ChartIcon} alt="Icone gráfico" />
-                        <p className="titleChart">CONSUMO DE ÁGUA</p>
-                    </div>
-                    <LineChart chartData={userData}/>
-                </div>
-            </div>
-            <div className="card" id="consumeTable">
-                <div className="contentCard">
-                    <div className="titleCard">
-                        <img className="iconCard" src={ChartIcon} alt="Icone gráfico" />
-                        <p className="titleChart">META DE USO</p>
-                    </div>
-                </div>
-            </div>
-            <div className="card" id="usingProgress">
-                <div className="contentCard">
-                    <div className="titleCard">
-                        <img className="iconCard" src={TimeIcon} alt="Icone relógio" />
-                        <p className="titleChart">HORÁRIOS DE PICO</p>
-                    </div>
-                    <div className="tableCard">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th className="firstColumn">HORÁRIO</th>
-                                    <th className="secondColumn">CONSUMO</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td className="firstColumn">20H</td>
-                                    <td className="secondColumn">12L/h</td>
-                                </tr>
-                                <tr>
-                                    <td className="firstColumn">12H</td>
-                                    <td className="secondColumn">10L/h</td>
-                                </tr>
-                                <tr>
-                                    <td className="firstColumn">17H</td>
-                                    <td className="secondColumn">9L/h</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                </div>
-            </div>
-        </div>
+    <div className="homeBody">
+      <div className="gridHome">
+        <WaterConsumption monthVolumeBySensor={monthVolumeBySensor} />
+        <UsageGoal monthVolumeBySensor={monthVolumeBySensor} />
+        <RushHour />
       </div>
     </div>
   );

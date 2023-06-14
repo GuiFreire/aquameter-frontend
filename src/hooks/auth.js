@@ -1,5 +1,5 @@
 import React, { createContext, useCallback, useContext, useState } from "react";
-import api from "../api/login";
+import { validateLogin } from "../api/login";
 
 const AuthContext = createContext();
 
@@ -14,12 +14,11 @@ export const AuthProvider = ({ children }) => {
     return {};
   });
 
-  const signIn = useCallback(async ({ email, password }) => {
-    const user = await api.validateLogin({ email, password });
-
+  const signIn = useCallback(async ({ document, password }) => {
+    const user = await validateLogin({ document, password });
     localStorage.setItem("user", JSON.stringify(user));
-
     setData({ user });
+    return user;
   }, []);
 
   const signOut = useCallback(() => {

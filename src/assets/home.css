@@ -2,12 +2,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    height: 100vh;
+    background-color: #dbf4ff;
 }
 
 .content {
     display: flex;
     width: 98%;
-    justify-content: center;
     height: 100%;
     flex-direction: column;
     align-items: center;

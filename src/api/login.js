@@ -1,3 +1,5 @@
+import api from "./api";
+
 const logins = [
   {
     email: "nathalia@gmail.com",
@@ -13,25 +15,43 @@ const logins = [
   },
 ];
 
-const validateLogin = ({ email, password }) => {
-  return new Promise((resolve, reject) => {
-    const foundLogin = logins.find(
-      (item) => item.email === email && item.password === password
-    );
-
-    if (foundLogin) {
-      resolve({
-        isValid: true,
-        email: foundLogin.email,
-        name: foundLogin.name,
-        code: foundLogin.code,
+export const validateLogin = async ({ document, password }) => {
+  const response = await api
+    .get("/user", {
+      params: {
+        document: document,
+        password: password,
+      },
+    })
+    .then((response) => {
+      if (response.data !== "Nenhum usuário encontrado") {
+        return {
+          isValid: true,
+          document: response.data.document,
+          name: response.data.name,
+          id: response.data.id,
+        };
+      } else {
+        return { isValid: false };
+      }
+    })
+    .catch((error) => {
+      console.log("error: ", error);
     });
-    } else {
-      reject({ isValid: false });
-    }
-  });
+  return response;
 };
 
-module.exports = {
-  validateLogin,
+export const createLogin = async ({ name, document, password }) => {
+  const response = api
+    .post(
+      "/user",
+      { name, document, password },
+      { "Access-Control-Allow-Origin": "*" }
+    )
+    .then((response) => response)
+    .catch((error) => {
+      console.log("error", error);
+    });
+
+  return response;
 };
