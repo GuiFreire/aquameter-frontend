@@ -1,8 +1,4 @@
-.login-logo {
-    width: 200px;
-}
-
-.login-content {
+.register-content {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -12,19 +8,20 @@
     background: linear-gradient(180deg, #A3E0FB 0%, rgba(255, 255, 255, 0) 100%);
 }
 
-.login-content-input {
+.login-logo {
+    width: 200px;
+}
+
+.register-content-input {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
 }
 
-.buttonLogin {
+.buttons {
+    width: 100%;
+    display: flex;
     margin-top: 20px;
-}
-
-.linkCadastro {
-    color: #4696E6;
-    text-decoration: none;
-    font-weight: bold;
+    justify-content: space-between;
 }

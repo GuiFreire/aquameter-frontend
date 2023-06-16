@@ -52,6 +52,9 @@ const Login = () => {
       <div className="buttonLogin">
         <Button onClick={handleLoginClick} variant="contained">Entrar</Button>
       </div>
+      <div className="register">
+        <p>Ainda não tem uma conta? <a className="linkCadastro" href="/cadastro">Cadastre-se</a> agora</p>
+      </div>
     </div>
   );
 };
