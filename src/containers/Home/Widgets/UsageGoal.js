@@ -18,6 +18,7 @@ const UsageGoal = ({ monthVolumeBySensor }) => {
               item.volume.find((i) => i.month === months[new Date().getMonth()])
                 .userConsumption
             }
+            sensorName={item.volume[0].name}
           />
         ))}
       </div>

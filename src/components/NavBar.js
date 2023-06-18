@@ -2,7 +2,7 @@ import React from "react";
 import Logo from "../assets/logo.png";
 import { useAuth } from "../hooks/auth";
 import { useNavigate } from "react-router-dom";
-import { Button } from "@mui/material"
+import { Button, Grid } from "@mui/material";
 import "../assets/home.css";
 
 const NavBar = ({ children }) => {
@@ -13,6 +13,15 @@ const NavBar = ({ children }) => {
     navigate("/");
   };
 
+  const handleHome = async () => {
+    await signOut();
+    navigate("/home");
+  };
+  const handleSensor = async () => {
+    await signOut();
+    navigate("/cadastro-sensor");
+  };
+
   return (
     <div className="content">
       <div className="homeHeader">
@@ -20,12 +29,22 @@ const NavBar = ({ children }) => {
           <img className="home-logo" src={Logo} alt="Aqua Meter Logo" />
         </div>
         <div className="infoHeader">
+          <Grid className="buttonsHeader">
+            <Button sx={6} onClick={handleHome} variant="text">
+              Home
+            </Button>
+            <Button sx={6} onClick={handleSensor} variant="text">
+              Cadastro Sensor
+            </Button>
+          </Grid>
           <div className="textHeader">
             <p className="simpleText">
               Olá, <b className="boldBlueText">{user.name}</b>
             </p>
+            <Button onClick={handleSignOut} variant="text">
+              sair
+            </Button>
           </div>
-          <Button onClick={handleSignOut} variant="text">sair</Button>
         </div>
       </div>
       {children}

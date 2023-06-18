@@ -5,6 +5,7 @@ import Login from "../containers/Login";
 import Home from "../containers/Home";
 import NavBar from "../components/NavBar";
 import Register from "../containers/Register";
+import RegisterSensor from "../containers/RegisterSensor";
 
 export default function Routes() {
   return (
@@ -20,6 +21,14 @@ export default function Routes() {
           }
         ></Route>
         <Route path="/cadastro" exact element={<Register />}></Route>
+        <Route
+          path="/cadastro-sensor"
+          element={
+            <NavBar>
+              <RegisterSensor />
+            </NavBar>
+          }
+        ></Route>
       </ReactRoutes>
     </BrowserRouter>
   );
