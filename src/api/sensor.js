@@ -52,6 +52,22 @@ export const getSensorVolumeByMonth = async (sensorCode) => {
       return response;
   };
 
+  export const getSensorVolumeByRushHour = async (sensorCode) => {
+    const response = await api
+      .get(`/volume/hour/${sensorCode}`)
+      .then((response) => {
+        if (response.data !== "Nenhum registro encontrado") {
+          return response.data;
+        } else {
+          return [];
+        };
+      })
+      .catch((error) => {
+        return [];
+      });
+      return response;
+  };
+  
   export const createSensor = async (name, sensorCode, userId) => {
     const response = api
     .post(

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../../hooks/auth";
-import { getSensorData, getSensorVolumeByMonth, getSensorVolumeByDay} from "../../api/sensor";
+import { getSensorData, getSensorVolumeByMonth, getSensorVolumeByDay, getSensorVolumeByRushHour} from "../../api/sensor";
 import { months } from "../../utils/months";
 import WaterConsumption from "./Widgets/WaterConsumption";
 import UsageGoal from "./Widgets/UsageGoal";
@@ -12,6 +12,7 @@ const Home = () => {
   const [sensors, setSensors] = useState([]);
   const [monthVolumeBySensor, setMonthVolumeBySensor] = useState([]);
   const [dailyVolumeBySensor, setDailyVolumeBySensor] = useState([]);
+  const [rushHourBySensor, setRushHourBySensor] = useState([]);
 
   const loadSensor = async () => {
     const response = await getSensorData(user.id);
@@ -20,6 +21,7 @@ const Home = () => {
       setSensors(response);
       loadVolumeByMonth(response);
       loadVolumeByDay(response);
+      loadVolumeByHour(response);
     }
   };
 
@@ -61,6 +63,25 @@ const Home = () => {
     setDailyVolumeBySensor(volumeByDay);
   };
 
+  const loadVolumeByHour = async (sensors) => {
+    const volumeByHour = await Promise.all(
+      sensors.map(async (item) => {
+        const response = await getSensorVolumeByRushHour(item.sensor_code);
+
+        const formattedVolume = response.map((v) => ({
+          id: item.sensor_code,
+          hour: v.hora_registro,
+          userConsumption: v.total_volume,
+          name: item.name,
+        }));
+
+        return { sensor_code: item.sensor_code, volume: formattedVolume }
+      })
+    );
+
+    setRushHourBySensor(volumeByHour);
+  };
+
   useEffect(() => {
     loadSensor();
   }, []);
@@ -74,7 +95,7 @@ const Home = () => {
         </div>
         <div className="contentChart">
           <WaterConsumption monthVolumeBySensor={monthVolumeBySensor} />
-          <RushHour />
+          <RushHour rushHourBySensor={rushHourBySensor} />
         </div>
       </div>
     </div>

@@ -1,7 +1,8 @@
 import React, {  } from "react";
 import TimeIcon from "../../../assets/timeIcon.png";
 
-const RushHour = () => {
+const RushHour = ({rushHourBySensor}) => {
+  console.log(rushHourBySensor);
   return (
     <div className="card" id="usingProgress">
       <div className="contentCard">
@@ -10,7 +11,9 @@ const RushHour = () => {
           <p className="titleChart">HORÁRIOS DE PICO</p>
         </div>
         <div className="tableCard">
-          <table>
+        {rushHourBySensor.map((item) => (
+          <table key={item.sensor_Code} className="sensorTable">
+            <caption className="titleTable">{item.volume[0].name}</caption>
             <thead>
               <tr>
                 <th className="firstColumn">HORÁRIO</th>
@@ -18,20 +21,15 @@ const RushHour = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td className="firstColumn">20H</td>
-                <td className="secondColumn">12L/h</td>
+            {item.volume.map((v) => (
+              <tr key={v.id}>
+                <td className="firstColumn">{v.hour}H</td>
+                <td className="secondColumn">{v.userConsumption.toFixed(2)}L/h</td>
               </tr>
-              <tr>
-                <td className="firstColumn">12H</td>
-                <td className="secondColumn">10L/h</td>
-              </tr>
-              <tr>
-                <td className="firstColumn">17H</td>
-                <td className="secondColumn">9L/h</td>
-              </tr>
+            ))}
             </tbody>
           </table>
+        ))}
         </div>
       </div>
     </div>
