@@ -1,21 +1,21 @@
-import React, {  } from "react";
+import React from "react";
 import ChartIcon from "../../../assets/showChart.png";
 import LineChart from "../../../components/lineChart";
 
 const DailyWaterConsumption = ({ dailyVolumeBySensor }) => {
   function _numDias() {
     const objData = new Date(),
-        numAno = objData.getFullYear(),
-        numMes = objData.getMonth()+1,
-        numDias = new Date(numAno, numMes, 0).getDate();
-  
+      numAno = objData.getFullYear(),
+      numMes = objData.getMonth() + 1,
+      numDias = new Date(numAno, numMes, 0).getDate();
+
     return numDias;
-  };
+  }
 
   const totalDays = _numDias();
   const days = [];
 
-  for (let i=1; i<=totalDays; i++) {
+  for (let i = 1; i <= totalDays; i++) {
     days.push(i);
   }
 
@@ -37,7 +37,6 @@ const DailyWaterConsumption = ({ dailyVolumeBySensor }) => {
     },
   };
 
-
   return (
     <div className="card" id="lineChart">
       <div className="contentCard">
@@ -50,7 +49,7 @@ const DailyWaterConsumption = ({ dailyVolumeBySensor }) => {
           chartData={{
             labels: days,
             datasets: dailyVolumeBySensor.map((item) => ({
-              label: item.volume[0].name,
+              label: item.sensor_name,
               data: item.volume.map((v) => ({
                 x: v.day,
                 y: v.userConsumption,

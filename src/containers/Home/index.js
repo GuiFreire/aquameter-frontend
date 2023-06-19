@@ -37,7 +37,7 @@ const Home = () => {
           name: item.name,
         }));
 
-        return { sensor_code: item.sensor_code, volume: formattedVolume };
+        return { sensor_code: item.sensor_code, sensor_name: item.name, volume: formattedVolume };
       })
     );
 
@@ -56,7 +56,7 @@ const Home = () => {
           name: item.name,
         }));
 
-        return { sensor_code: item.sensor_code, volume: formattedVolume };
+        return { sensor_code: item.sensor_code, sensor_name: item.name, volume: formattedVolume };
       })
     );
 
@@ -75,7 +75,7 @@ const Home = () => {
           name: item.name,
         }));
 
-        return { sensor_code: item.sensor_code, volume: formattedVolume }
+        return { sensor_code: item.sensor_code, sensor_name: item.name, volume: formattedVolume }
       })
     );
 

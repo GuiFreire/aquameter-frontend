@@ -1,8 +1,7 @@
-import React, {  } from "react";
+import React from "react";
 import TimeIcon from "../../../assets/timeIcon.png";
 
-const RushHour = ({rushHourBySensor}) => {
-  console.log(rushHourBySensor);
+const RushHour = ({ rushHourBySensor }) => {
   return (
     <div className="card" id="usingProgress">
       <div className="contentCard">
@@ -11,25 +10,29 @@ const RushHour = ({rushHourBySensor}) => {
           <p className="titleChart">HORÁRIOS DE PICO</p>
         </div>
         <div className="tableCard">
-        {rushHourBySensor.map((item) => (
-          <table key={item.sensor_Code} className="sensorTable">
-            <caption className="titleTable">{item.volume[0].name}</caption>
-            <thead>
-              <tr>
-                <th className="firstColumn">HORÁRIO</th>
-                <th className="secondColumn">CONSUMO</th>
-              </tr>
-            </thead>
-            <tbody>
-            {item.volume.map((v) => (
-              <tr key={v.id}>
-                <td className="firstColumn">{v.hour}H</td>
-                <td className="secondColumn">{v.userConsumption.toFixed(2)}L/h</td>
-              </tr>
-            ))}
-            </tbody>
-          </table>
-        ))}
+          {rushHourBySensor.map((item) =>
+            item.volume.length > 0 ? (
+              <table key={item.sensor_Code} className="sensorTable">
+                <caption className="titleTable">{item.sensor_name}</caption>
+                <thead>
+                  <tr>
+                    <th className="firstColumn">HORÁRIO</th>
+                    <th className="secondColumn">CONSUMO</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {item.volume.map((v) => (
+                    <tr key={v.hour}>
+                      <td className="firstColumn">{v.hour}H</td>
+                      <td className="secondColumn">
+                        {v.userConsumption.toFixed(2)}L/h
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : null
+          )}
         </div>
       </div>
     </div>

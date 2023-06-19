@@ -68,11 +68,11 @@ export const getSensorVolumeByMonth = async (sensorCode) => {
       return response;
   };
   
-  export const createSensor = async (name, sensorCode, userId) => {
+  export const createSensor = async (name, sensor_code, user_id) => {
     const response = api
     .post(
       "/sensor",
-      { name, sensorCode, userId },
+      { name, sensor_code, user_id },
       { "Access-Control-Allow-Origin": "*" }
     )
     .then((response) => response)

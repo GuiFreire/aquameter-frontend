@@ -4,12 +4,12 @@ import LinearProgress from "@mui/material/LinearProgress";
 import Typography from "@mui/material/Typography";
 
 function LinearProgressWithLabel({ value = 0, sensorName }) {
-  const percentual = ((value / 5000) * 100).toFixed(2);
+  const percentual = ((value / 15000) * 100).toFixed(2);
 
   return (
     <div>
       <p className="progressBoldText">{sensorName}</p>
-      <p className="progressSmallText">(Meta: 5000)</p>
+      <p className="progressSmallText">(Meta: 15.000)</p>
       <LinearProgress
         variant="determinate"
         value={percentual}

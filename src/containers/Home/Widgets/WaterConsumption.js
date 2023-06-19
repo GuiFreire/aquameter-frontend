@@ -34,7 +34,7 @@ const WaterConsumption = ({ monthVolumeBySensor }) => {
           chartData={{
             labels: months,
             datasets: monthVolumeBySensor.map((item) => ({
-              label: item.volume[0].name,
+              label: item.sensor_name,
               data: item.volume.map((v) => ({
                 x: v.month,
                 y: v.userConsumption,
